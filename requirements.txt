@@ -1,4 +1,3 @@
-openai
-transformers
-torch
 streamlit
+transformers
+openai>=1.0.0
