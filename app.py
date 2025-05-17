@@ -101,8 +101,3 @@ elif option == "Study Tracker":
         st.success("Great job! You're staying consistent with your studies!")
 
 
-st.markdown("---")
-st.markdown(
-    "<div style='text-align: center'>Made with ❤️ by [Your Name] · <a href='https://github.com/your-username/AI-StudyMate' target='_blank'>GitHub Repo</a></div>",
-    unsafe_allow_html=True
-)
