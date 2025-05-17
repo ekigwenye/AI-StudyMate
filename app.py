@@ -1,19 +1,19 @@
 import streamlit as st
 from transformers import pipeline
-from openai import OpenAI
+import openai
 import time
 
-# Set OpenAI API key securely
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+# Set your OpenAI API key
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Load summarizer
 summarizer = pipeline("summarization")
 
 # Page config and title
-st.set_page_config(page_title="AI StudyMate", page_icon="🎓", layout="centered")
+st.set_page_config(page_title="AI StudyMate", layout="centered")
 st.title("AI StudyMate: Your Smart Learning Companion")
 
-# Sidebar for feature selection
+# Sidebar
 st.sidebar.title("Features")
 option = st.sidebar.radio("Select a feature:", ["Summarize Text", "AI Chatbot", "Generate Quiz", "Study Tracker"])
 
@@ -33,6 +33,7 @@ elif option == "AI Chatbot":
     user_question = st.text_input("Ask any study-related question:")
     if st.button("Ask") and user_question:
         with st.spinner("Thinking..."):
+            client = openai.OpenAI()
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
@@ -50,10 +51,11 @@ elif option == "Generate Quiz":
     topic = st.text_input("Enter a topic or paste some text:")
     if st.button("Generate Quiz") and topic:
         with st.spinner("Creating questions..."):
-            quiz_prompt = f"Generate 3 multiple-choice questions (with options and correct answers) based on the following topic:\n{topic}"
+            prompt = f"Generate 3 multiple-choice questions (with options and correct answers) based on the following topic or content:\n{topic}"
+            client = openai.OpenAI()
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": quiz_prompt}]
+                messages=[{"role": "user", "content": prompt}]
             )
             quiz = response.choices[0].message.content
             st.subheader("Quiz:")
@@ -67,11 +69,11 @@ elif option == "Study Tracker":
 
     if st.button("Start 25-Minute Study Session"):
         st.success("Timer started! Simulating 25 minutes...")
-        time.sleep(2)  # short wait for demo
+        time.sleep(2)  # Short delay for demo
         st.session_state.study_time += 25
-        st.success("25 minutes added!")
+        st.success("25 minutes added to your study log!")
 
     st.metric("Total Study Time (min)", st.session_state.study_time)
     if st.session_state.study_time >= 100:
         st.balloons()
-        st.success("Awesome! You're staying consistent!")
+        st.success("Great job! You're staying consistent with your studies!")
