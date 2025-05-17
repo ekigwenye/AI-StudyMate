@@ -1,4 +1,7 @@
-import streamlit as st from transformers import pipeline import openai import time
+import streamlit as st
+from transformers import pipeline
+import openai
+import time
 
 Set your OpenAI API key
 
