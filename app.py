@@ -1,3 +1,7 @@
+st.set_page_config(page_title="AI StudyMate", page_icon="🎓")
+
+st.title("AI StudyMate")
+st.markdown("Your smart learning companion for summarizing, chatting, quizzing, and staying productive.")
 
 tab1, tab2, tab3, tab4 = st.tabs(["📚 Summarize", "💬 Chat", "❓ Quiz", "⏱ Study Timer"])
 
