@@ -1,3 +1,23 @@
+
+tab1, tab2, tab3, tab4 = st.tabs(["📚 Summarize", "💬 Chat", "❓ Quiz", "⏱ Study Timer"])
+
+with tab1:
+    # Place your summarizer code here
+    st.subheader("Summarize Notes")
+
+with tab2:
+    # Place your chatbot code here
+    st.subheader("AI Chat")
+
+with tab3:
+    # Place your quiz code here
+    st.subheader("Quiz Generator")
+
+with tab4:
+    # Place your timer code here
+    st.subheader("Study Timer")
+
+
 import streamlit as st
 from transformers import pipeline
 import openai
