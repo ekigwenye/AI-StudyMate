@@ -1,103 +1,42 @@
-st.set_page_config(page_title="AI StudyMate", page_icon="🎓")
+import streamlit as st from transformers import pipeline import openai import time
 
-st.title("AI StudyMate")
-st.markdown("Your smart learning companion for summarizing, chatting, quizzing, and staying productive.")
+App Title
 
-tab1, tab2, tab3, tab4 = st.tabs(["📚 Summarize", "💬 Chat", "❓ Quiz", "⏱ Study Timer"])
+st.set_page_config(page_title="AI StudyMate") st.title("AI StudyMate: Your Smart Learning Companion")
 
-with tab1:
-    # Place your summarizer code here
-    st.subheader("Summarize Notes")
+Load Summarizer
 
-with tab2:
-    # Place your chatbot code here
-    st.subheader("AI Chat")
+@st.cache_resource def load_summarizer(): return pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
 
-with tab3:
-    # Place your quiz code here
-    st.subheader("Quiz Generator")
+summarizer = load_summarizer()
 
-with tab4:
-    # Place your timer code here
-    st.subheader("Study Timer")
+Set OpenAI API key
 
-
-import streamlit as st
-from transformers import pipeline
-import openai
-import time
-
-# Set your OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Load summarizer
-summarizer = pipeline("summarization")
+Tabs for functionality
 
-# Page config and title
-st.set_page_config(page_title="AI StudyMate", layout="centered")
-st.title("AI StudyMate: Your Smart Learning Companion")
+tabs = st.tabs(["Summarize Notes", "AI Chatbot", "Quiz Generator", "Study Timer"])
 
-# Sidebar
-st.sidebar.title("Features")
-option = st.sidebar.radio("Select a feature:", ["Summarize Text", "AI Chatbot", "Generate Quiz", "Study Tracker"])
+--- Summarize Notes ---
 
-# --- Feature: Summarize Text ---
-if option == "Summarize Text":
-    st.header("Summarize Your Notes")
-    text_input = st.text_area("Paste your notes or study content here:", height=300)
-    if st.button("Summarize") and text_input:
-        with st.spinner("Summarizing..."):
-            summary = summarizer(text_input, max_length=120, min_length=30, do_sample=False)[0]['summary_text']
-            st.subheader("Summary:")
-            st.success(summary)
+with tabs[0]: st.subheader("Summarize Notes") notes = st.text_area("Enter your study notes:") if st.button("Summarize") and notes: with st.spinner("Summarizing..."): summary = summarizer(notes, max_length=130, min_length=30, do_sample=False) st.success(summary[0]['summary_text'])
 
-# --- Feature: AI Chatbot ---
-elif option == "AI Chatbot":
-    st.header("Ask AI StudyMate")
-    user_question = st.text_input("Ask any study-related question:")
-    if st.button("Ask") and user_question:
-        with st.spinner("Thinking..."):
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a helpful tutor for secondary and university students."},
-                    {"role": "user", "content": user_question}
-                ]
-            )
-            answer = response['choices'][0]['message']['content']
-            st.subheader("Answer:")
-            st.info(answer)
+--- AI Chatbot ---
 
-# --- Feature: Generate Quiz ---
-elif option == "Generate Quiz":
-    st.header("Quiz Generator")
-    topic = st.text_input("Enter a topic or paste some text:")
-    if st.button("Generate Quiz") and topic:
-        with st.spinner("Creating questions..."):
-            quiz_prompt = f"Generate 3 multiple-choice questions (with options and correct answers) based on the following topic or content:\n{topic}"
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": quiz_prompt}]
-            )
-            quiz = response['choices'][0]['message']['content']
-            st.subheader("Quiz:")
-            st.write(quiz)
+with tabs[1]: st.subheader("Ask the AI Chatbot") question = st.text_input("Ask a study question:") if st.button("Get Answer") and question: with st.spinner("Thinking..."): response = openai.ChatCompletion.create( model="gpt-3.5-turbo", messages=[ {"role": "system", "content": "You are a helpful academic assistant."}, {"role": "user", "content": question} ] ) answer = response["choices"][0]["message"]["content"] st.success(answer)
 
-# --- Feature: Study Tracker ---
-elif option == "Study Tracker":
-    st.header("Your Study Tracker")
-    if 'study_time' not in st.session_state:
-        st.session_state.study_time = 0
+--- Quiz Generator ---
 
-    if st.button("Start 25-Minute Study Session"):
-        st.success("Timer started! Simulating 25 minutes...")
-        time.sleep(2)  # Short delay for demo
-        st.session_state.study_time += 25
-        st.success("25 minutes added to your study log!")
+with tabs[2]: st.subheader("Quiz Generator") topic = st.text_input("Enter a topic to generate quiz questions:") if st.button("Generate Quiz") and topic: with st.spinner("Generating questions..."): quiz_prompt = f"Generate 3 multiple-choice questions with 4 options each on the topic: {topic}. Indicate the correct answer." quiz_response = openai.ChatCompletion.create( model="gpt-3.5-turbo", messages=[ {"role": "user", "content": quiz_prompt} ] ) quiz = quiz_response["choices"][0]["message"]["content"] st.write(quiz)
 
-    st.metric("Total Study Time (min)", st.session_state.study_time)
-    if st.session_state.study_time >= 100:
-        st.balloons()
-        st.success("Great job! You're staying consistent with your studies!")
+--- Study Timer ---
+
+with tabs[3]: st.subheader("Study Timer") minutes = st.number_input("Set timer (minutes):", min_value=1, max_value=120, value=25) if st.button("Start Timer"): seconds = minutes * 60 with st.empty(): for i in range(int(seconds), 0, -1): mins, secs = divmod(i, 60) timer_display = f"{mins:02d}:{secs:02d}" st.metric(label="Time Remaining", value=timer_display) time.sleep(1) st.success("Time's up! Take a short break.")
+
+Footer
+
+st.markdown("---") st.markdown( "<div style='text-align: center'>Made with ❤️ by Ekigwenye · <a href='https://github.com/ekigwenye/AI-StudyMate' target='_blank'>GitHub Repo</a></div>", unsafe_allow_html=True )
+
 
 
