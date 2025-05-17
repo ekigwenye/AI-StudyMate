@@ -6,8 +6,7 @@ import time
 # Set your OpenAI API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-# Load summarizer
-summarizer = pipeline("summarization")
+summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
 
 # Page config and title
 st.set_page_config(page_title="AI StudyMate", layout="centered")
