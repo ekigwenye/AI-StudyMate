@@ -1,18 +1,23 @@
 import streamlit as st
-from transformers import pipeline
-import openai
 import time
+from transformers import pipeline
+from openai import OpenAI
 
-# Set your OpenAI API key
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+# Load OpenAI API key
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+# Load summarizer (lightweight model)
+@st.cache_resource
+def load_summarizer():
+    return pipeline("summarization", model="Falconsai/text_summarization")
 
-# Page config and title
+summarizer = load_summarizer()
+
+# Page config
 st.set_page_config(page_title="AI StudyMate", layout="centered")
 st.title("AI StudyMate: Your Smart Learning Companion")
 
-# Sidebar
+# Sidebar navigation
 st.sidebar.title("Features")
 option = st.sidebar.radio("Select a feature:", ["Summarize Text", "AI Chatbot", "Generate Quiz", "Study Tracker"])
 
@@ -22,9 +27,12 @@ if option == "Summarize Text":
     text_input = st.text_area("Paste your notes or study content here:", height=300)
     if st.button("Summarize") and text_input:
         with st.spinner("Summarizing..."):
-            summary = summarizer(text_input, max_length=120, min_length=30, do_sample=False)[0]['summary_text']
-            st.subheader("Summary:")
-            st.success(summary)
+            try:
+                summary = summarizer(text_input, max_length=120, min_length=30, do_sample=False)[0]['summary_text']
+                st.subheader("Summary:")
+                st.success(summary)
+            except Exception as e:
+                st.error(f"Summarization error: {e}")
 
 # --- Feature: AI Chatbot ---
 elif option == "AI Chatbot":
@@ -32,17 +40,19 @@ elif option == "AI Chatbot":
     user_question = st.text_input("Ask any study-related question:")
     if st.button("Ask") and user_question:
         with st.spinner("Thinking..."):
-            client = openai.OpenAI()
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a helpful tutor for secondary and university students."},
-                    {"role": "user", "content": user_question}
-                ]
-            )
-            answer = response.choices[0].message.content
-            st.subheader("Answer:")
-            st.info(answer)
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": "You are a helpful tutor for secondary and university students."},
+                        {"role": "user", "content": user_question}
+                    ]
+                )
+                answer = response.choices[0].message.content
+                st.subheader("Answer:")
+                st.info(answer)
+            except Exception as e:
+                st.error(f"Chatbot error: {e}")
 
 # --- Feature: Generate Quiz ---
 elif option == "Generate Quiz":
@@ -50,15 +60,17 @@ elif option == "Generate Quiz":
     topic = st.text_input("Enter a topic or paste some text:")
     if st.button("Generate Quiz") and topic:
         with st.spinner("Creating questions..."):
-            prompt = f"Generate 3 multiple-choice questions (with options and correct answers) based on the following topic or content:\n{topic}"
-            client = openai.OpenAI()
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}]
-            )
-            quiz = response.choices[0].message.content
-            st.subheader("Quiz:")
-            st.write(quiz)
+            try:
+                prompt = f"Generate 3 multiple-choice questions (with options and correct answers) based on the following topic or content:\n{topic}"
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[{"role": "user", "content": prompt}]
+                )
+                quiz = response.choices[0].message.content
+                st.subheader("Quiz:")
+                st.write(quiz)
+            except Exception as e:
+                st.error(f"Quiz error: {e}")
 
 # --- Feature: Study Tracker ---
 elif option == "Study Tracker":
@@ -68,7 +80,7 @@ elif option == "Study Tracker":
 
     if st.button("Start 25-Minute Study Session"):
         st.success("Timer started! Simulating 25 minutes...")
-        time.sleep(2)  # Short delay for demo
+        time.sleep(2)  # Simulated delay
         st.session_state.study_time += 25
         st.success("25 minutes added to your study log!")
 
