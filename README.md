@@ -1,24 +1,25 @@
-# AI StudyMate: Your Smart Learning Companion
+# AI StudyMate
 
-**AI StudyMate** is a virtual study assistant that helps learners summarize notes, ask questions, generate quizzes, and track study time — all in one simple app.
+**AI StudyMate** is a powerful AI-powered education assistant built with Streamlit. It offers students and learners an all-in-one solution to improve their study process through summarization, chatbot interaction, quiz generation, and progress tracking.
 
 ## Features
 
-- **Summarize Notes**: Simplify long study content into key points.
-- **AI Chatbot**: Ask academic questions and get instant answers.
-- **Quiz Generator**: Auto-generate multiple-choice questions from topics.
-- **Study Timer**: Set focused study sessions to boost productivity.
+- **Summarize Text**: Quickly generate concise summaries of long passages.
+- **AI Chatbot**: Ask study-related questions and get intelligent responses.
+- **Quiz Generator**: Create quizzes from any input text to test your understanding.
+- **Study Tracker**: Keep track of topics you've studied and your progress.
 
-## Tech Stack
+## Live Demo
 
-- Python
-- Streamlit
-- OpenAI GPT-3.5
-- Hugging Face Transformers
+Check out the live app here:  
+[https://ai-studymate-3rzmgcfqqvwk6buiwtsqri.streamlit.app/](https://ai-studymate-3rzmgcfqqvwk6buiwtsqri.streamlit.app/)
 
-## Getting Started
+## Installation
 
-### Install dependencies
+To run this project locally:
 
 ```bash
+git clone https://github.com/ekigwenye/AI-StudyMate.git
+cd AI-StudyMate
 pip install -r requirements.txt
+streamlit run app.py
