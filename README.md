@@ -21,6 +21,8 @@ Try it out here:
 - **OpenAI Python SDK v1.0+**
 - **Hugging Face Transformers**
 
+## Built For This project was created as an entry for the **3MTT Knowledge Showcase – May Edition**, under the **AI-Powered Solutions** category.
+
 ## Getting Started
 
 ### 1. Clone the Repository
