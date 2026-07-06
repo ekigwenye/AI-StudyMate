@@ -1,6 +1,10 @@
 # AI StudyMate: Your Smart Learning Companion
+# AI-StudyMate
 
-**AI StudyMate** is a virtual study assistant that helps learners summarize notes, ask questions, generate quizzes, and track study time — all in one simple app.
+AI-StudyMate is an AI-powered learning assistant designed to make studying more effective and engaging. It helps students summarize lengthy notes, generate practice quizzes, ask academic questions, and stay focused with an integrated study timer.
+
+The project was developed to demonstrate how artificial intelligence can improve learning experiences by making educational support more accessible and personalized.
+
 
 ## Live Demo
 
@@ -21,7 +25,6 @@ Try it out here:
 - **OpenAI Python SDK v1.0+**
 - **Hugging Face Transformers**
 
-## Built For This project was created as an entry for the **3MTT Knowledge Showcase – May Edition**, under the **AI-Powered Solutions** category.
 
 ## Getting Started
 
