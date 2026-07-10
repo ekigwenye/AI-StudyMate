@@ -1,12 +1,8 @@
-
 import streamlit as st
 from utils.prompts import summary_prompt
-
-# If you already have a file handler, we’ll plug it in later
-# from utils.file_handler import extract_text_from_file
+from utils.gemini import generate_summary
 
 st.title("📚 Smart Summarizer")
-
 st.write("Turn long study materials into clean, structured summaries.")
 
 # ---------------------------
@@ -21,19 +17,22 @@ option = st.radio(
 text = ""
 
 if option == "Paste Text":
-    text = st.text_area("Paste your content here", height=250)
+    text = st.text_area(
+        "Paste your study material here",
+        height=250
+    )
 
 elif option == "Upload File":
-    uploaded_file = st.file_uploader("Upload PDF, DOCX, or TXT")
+    uploaded_file = st.file_uploader(
+        "Upload a PDF, DOCX or TXT file",
+        type=["pdf", "docx", "txt"]
+    )
 
     if uploaded_file is not None:
-        file_type = uploaded_file.name.split(".")[-1]
-
-        if file_type == "txt":
+        if uploaded_file.name.endswith(".txt"):
             text = uploaded_file.read().decode("utf-8")
-
         else:
-            st.warning("File extraction for PDF/DOCX will be added next step.")
+            st.info("PDF and DOCX support will be added next.")
 
 # ---------------------------
 # SETTINGS
@@ -52,32 +51,27 @@ style = st.selectbox(
 )
 
 # ---------------------------
-# GENERATE BUTTON
+# GENERATE SUMMARY
 # ---------------------------
 
 if st.button("🚀 Generate Summary"):
 
     if not text.strip():
         st.error("Please provide some text first.")
+
     else:
+
         with st.spinner("Generating summary..."):
 
-            prompt = summary_prompt(text, length, style)
+            try:
+                prompt = summary_prompt(text, length, style)
 
-            # TEMP MOCK OUTPUT (we'll replace with AI next step)
-            st.success("Summary Generated!")
+                summary = generate_summary(prompt)
 
-            st.subheader("📝 Summary")
-            st.write("This is where the AI summary will appear.")
+                st.success("Summary Generated!")
 
-            st.subheader("🔑 Key Takeaways")
-            st.write("- Point 1\n- Point 2\n- Point 3")
+                st.markdown(summary)
 
-            st.subheader("📌 Important Terms")
-            st.write("- Term 1: Definition\n- Term 2: Definition")
-
-            st.subheader("❓ Practice Questions")
-            st.write("1. Question one?\n2. Question two?\n3. Question three?")
-
-            st.subheader("💡 Study Tip")
-            st.write("Review this summary daily for better retention.")
+            except Exception as e:
+                st.error(f"Error: {e}")
+                

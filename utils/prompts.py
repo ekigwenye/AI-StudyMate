@@ -1,11 +1,8 @@
-
-def summarizer_prompt(text, length, style):
+def summary_prompt(text, length, style):
     return f"""
 You are an expert educational assistant.
 
-Your task is to help students understand their study materials.
-
-Summarize the following content.
+Summarize the following study material.
 
 Summary Length:
 {length}
@@ -13,17 +10,25 @@ Summary Length:
 Summary Style:
 {style}
 
-After the summary, also provide:
+Please organize your response using these headings:
 
-1. Key Takeaways (3–5 bullet points)
+# Summary
 
-2. Important Terms and Definitions
+# Key Takeaways
+- Bullet points
 
-3. Three Practice Questions
+# Important Terms
+- Term: Definition
 
-4. One Study Tip for remembering the material
+# Practice Questions
+1.
+2.
+3.
+
+# Study Tip
 
 Study Material:
 
 {text}
 """
+
