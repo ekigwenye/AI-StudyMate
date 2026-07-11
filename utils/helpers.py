@@ -1,4 +1,6 @@
 import streamlit as st
+from pypdf import PdfReader
+from docx import Document
 
 
 def show_error(message):
@@ -12,11 +14,11 @@ def show_success(message):
 def show_info(message):
     st.info(message)
 
-from pypdf import PdfReader
-from docx import Document
-
 
 def extract_text(uploaded_file):
+    """
+    Extract text from TXT, PDF, or DOCX files.
+    """
     filename = uploaded_file.name.lower()
 
     if filename.endswith(".txt"):
@@ -37,4 +39,5 @@ def extract_text(uploaded_file):
         doc = Document(uploaded_file)
         return "\n".join(paragraph.text for paragraph in doc.paragraphs)
 
-    return ""
+    else:
+        return ""
