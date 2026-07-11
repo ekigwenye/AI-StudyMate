@@ -11,3 +11,30 @@ def show_success(message):
 
 def show_info(message):
     st.info(message)
+
+from pypdf import PdfReader
+from docx import Document
+
+
+def extract_text(uploaded_file):
+    filename = uploaded_file.name.lower()
+
+    if filename.endswith(".txt"):
+        return uploaded_file.read().decode("utf-8")
+
+    elif filename.endswith(".pdf"):
+        reader = PdfReader(uploaded_file)
+        text = ""
+
+        for page in reader.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+
+        return text
+
+    elif filename.endswith(".docx"):
+        doc = Document(uploaded_file)
+        return "\n".join(paragraph.text for paragraph in doc.paragraphs)
+
+    return ""
