@@ -7,18 +7,24 @@ from utils.prompts import summary_prompt
 from utils.gemini import generate_summary
 from utils.helpers import extract_text
 
+# ------------------------------------
+# PAGE TITLE
+# ------------------------------------
+
 st.title("📚 Smart Summarizer")
 st.write("Turn long study materials into clear, structured study notes.")
 
-# -------------------------
-# Session State
-# -------------------------
+# ------------------------------------
+# SESSION STATE
+# ------------------------------------
+
 if "summary" not in st.session_state:
     st.session_state.summary = ""
 
-# -------------------------
-# Input
-# -------------------------
+# ------------------------------------
+# INPUT TYPE
+# ------------------------------------
+
 option = st.radio(
     "Choose input type:",
     ["Paste Text", "Upload File"]
@@ -26,12 +32,21 @@ option = st.radio(
 
 text = ""
 
+# ------------------------------------
+# PASTE TEXT
+# ------------------------------------
+
 if option == "Paste Text":
 
     text = st.text_area(
-        "Paste your study material",
-        height=250
+        "Paste your study material here",
+        height=250,
+        placeholder="Paste notes, articles or textbook content..."
     )
+
+# ------------------------------------
+# UPLOAD FILE
+# ------------------------------------
 
 else:
 
@@ -40,13 +55,15 @@ else:
         type=["pdf", "docx", "txt"]
     )
 
-    if uploaded_file:
+    if uploaded_file is not None:
+
         text = extract_text(uploaded_file)
+
         st.success("✅ File uploaded successfully!")
 
-# -------------------------
-# Settings
-# -------------------------
+# ------------------------------------
+# SUMMARY SETTINGS
+# ------------------------------------
 
 st.subheader("⚙️ Summary Settings")
 
@@ -60,52 +77,57 @@ style = st.selectbox(
     ["Simple", "Academic", "Bullet Points"]
 )
 
-# -------------------------
-# Generate
-# -------------------------
+# ------------------------------------
+# GENERATE SUMMARY
+# ------------------------------------
 
 if st.button("🚀 Generate Summary"):
 
     if not text.strip():
 
-        st.warning("Please paste text or upload a file.")
+        st.warning("Please paste some text or upload a file.")
 
     else:
 
         with st.spinner("Generating summary..."):
 
-            try:
+            prompt = summary_prompt(
+                text,
+                length,
+                style
+            )
 
-                prompt = summary_prompt(
-                    text,
-                    length,
-                    style
-                )
+            summary = generate_summary(prompt)
 
-                summary = generate_summary(prompt)
+            if summary:
 
                 st.session_state.summary = summary
 
                 st.success("✅ Summary Generated!")
 
-            except Exception:
+            else:
+
+                st.session_state.summary = ""
 
                 st.warning(
-                    "⚠️ AI service is temporarily busy or you've reached the free usage limit. Please wait a minute and try again."
+                    "⚠️ AI service is temporarily unavailable. Please wait a minute and try again."
                 )
 
-# -------------------------
-# Display Summary
-# -------------------------
+# ------------------------------------
+# DISPLAY SUMMARY
+# ------------------------------------
 
 if st.session_state.summary:
 
     st.markdown("---")
+
+    st.subheader("📖 Your Summary")
+
     st.markdown(st.session_state.summary)
 
-    # -------------------------
-    # TXT Download
-    # -------------------------
+    # --------------------------------
+    # DOWNLOAD AS TXT
+    # --------------------------------
 
     st.download_button(
         label="📥 Download Summary (.txt)",
@@ -114,9 +136,9 @@ if st.session_state.summary:
         mime="text/plain"
     )
 
-    # -------------------------
-    # PDF Download
-    # -------------------------
+    # --------------------------------
+    # DOWNLOAD AS PDF
+    # --------------------------------
 
     pdf_buffer = BytesIO()
 
