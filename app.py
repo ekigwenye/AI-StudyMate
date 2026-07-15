@@ -1,9 +1,9 @@
 import streamlit as st
 
 
-# -------------------------------------------------
-# Page Configuration
-# -------------------------------------------------
+# ------------------------------------
+# PAGE CONFIGURATION
+# ------------------------------------
 
 st.set_page_config(
     page_title="AI StudyMate",
@@ -12,11 +12,11 @@ st.set_page_config(
 )
 
 
-# -------------------------------------------------
-# Initialize Session State
-# -------------------------------------------------
+# ------------------------------------
+# SESSION STATE INITIALIZATION
+# ------------------------------------
 
-stats = {
+default_stats = {
     "summaries_generated": 0,
     "quizzes_generated": 0,
     "flashcards_generated": 0,
@@ -25,53 +25,55 @@ stats = {
 }
 
 
-for key, value in stats.items():
+for key, value in default_stats.items():
 
     if key not in st.session_state:
         st.session_state[key] = value
 
 
 
-# -------------------------------------------------
-# Header
-# -------------------------------------------------
+# ------------------------------------
+# HEADER
+# ------------------------------------
 
 st.title("📚 AI StudyMate")
 
 st.subheader(
-    "Learn Smarter. Study Better. Powered by AI."
+    "Learn Smarter. Study Better. Powered by Artificial Intelligence."
 )
 
 st.markdown("---")
 
 
 
-# -------------------------------------------------
-# Welcome
-# -------------------------------------------------
+# ------------------------------------
+# INTRODUCTION
+# ------------------------------------
 
-st.markdown("""
-Welcome to **AI StudyMate**, your personal AI-powered learning companion.
+st.markdown(
+"""
+Welcome to **AI StudyMate**, your intelligent learning companion.
 
-AI StudyMate helps students understand difficult topics, summarize learning materials,
-create revision resources, and organize their study plans using Artificial Intelligence.
+AI StudyMate helps students transform their learning experience by using
+Artificial Intelligence to summarize notes, explain concepts, generate revision
+materials, and create personalized study plans.
 
-Whether you are preparing for exams, revising lecture notes, or learning new concepts,
-AI StudyMate provides tools to make studying more effective.
-""")
+Navigate through the tools on the sidebar to begin learning.
+"""
+)
 
 
 st.info(
-    "👈 Use the navigation menu on the left to access your AI learning tools."
+    "👈 Select a tool from the sidebar to start using AI StudyMate."
 )
 
 
 
-# -------------------------------------------------
-# Learning Statistics
-# -------------------------------------------------
+# ------------------------------------
+# ACTIVITY DASHBOARD
+# ------------------------------------
 
-st.header("📊 Your Learning Activity")
+st.header("📊 Learning Activity")
 
 
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -117,116 +119,117 @@ with col5:
     )
 
 
-st.markdown("---")
-
-
-
-# -------------------------------------------------
-# Features
-# -------------------------------------------------
-
-st.header("✨ AI StudyMate Features")
-
-
-col1, col2 = st.columns(2)
-
-
-with col1:
-
-    st.markdown("""
-### 📝 Smart Note Summarizer
-
-Transform long study materials into clear summaries, key points, and revision notes.
-
-
-### 🤖 AI Study Tutor
-
-Ask questions and receive explanations based on your learning materials.
-
-
-### 🃏 AI Flashcards
-
-Generate flashcards automatically for active recall and revision.
-""")
-
-
-with col2:
-
-    st.markdown("""
-### 📝 AI Quiz Generator
-
-Create personalized quizzes to test your understanding.
-
-
-### 📅 AI Study Planner
-
-Generate personalized study schedules based on your goals and available time.
-
-
-### 📊 Learning Dashboard
-
-Track your AI StudyMate activities and progress.
-""")
-
 
 st.markdown("---")
 
 
 
-# -------------------------------------------------
-# Study Tip
-# -------------------------------------------------
+# ------------------------------------
+# TOOLS OVERVIEW
+# ------------------------------------
+
+st.header("🚀 AI StudyMate Tools")
+
+
+tools = [
+
+    (
+        "📝 Smart Summarizer",
+        "Convert lengthy study materials into summaries, key points, important terms, and revision notes."
+    ),
+
+    (
+        "🤖 AI Tutor",
+        "Ask questions and receive AI explanations based on your study materials."
+    ),
+
+    (
+        "🃏 AI Flashcards",
+        "Create effective revision flashcards using your notes."
+    ),
+
+    (
+        "📝 AI Quiz Generator",
+        "Generate personalized quizzes to test your understanding."
+    ),
+
+    (
+        "📅 AI Study Planner",
+        "Create structured study schedules based on your goals."
+    )
+
+]
+
+
+for title, description in tools:
+
+    with st.container():
+
+        st.markdown(
+            f"### {title}"
+        )
+
+        st.write(
+            description
+        )
+
+        st.markdown("---")
+
+
+
+# ------------------------------------
+# STUDY TIP
+# ------------------------------------
 
 st.header("💡 Study Tip")
 
 
 st.success(
-    "Use active recall and practice testing instead of only rereading notes. "
-    "Creating quizzes and flashcards helps strengthen memory and understanding."
+"""
+Active learning improves memory.
+
+Try combining:
+- Flashcards for recall
+- Quizzes for testing
+- AI Tutor for understanding
+- Study Planner for consistency
+"""
 )
 
 
 
-# -------------------------------------------------
-# Quote
-# -------------------------------------------------
-
-st.header("📖 Quote of the Day")
-
-
-st.info(
-    "\"Education is the passport to the future, for tomorrow belongs to those who prepare for it today.\" "
-    "— Malcolm X"
-)
-
-
-st.markdown("---")
-
-
-
-# -------------------------------------------------
-# About
-# -------------------------------------------------
+# ------------------------------------
+# PROJECT INFORMATION
+# ------------------------------------
 
 st.header("👨‍💻 About AI StudyMate")
 
 
-st.write("""
-AI StudyMate was developed by **Treasure Ekigwenye** as an AI-powered learning platform
-designed to make studying smarter, faster, and more interactive.
+st.write(
+"""
+AI StudyMate was created by **Treasure Ekigwenye** as an AI-powered educational
+platform that helps students study more effectively.
 
-The project combines Python, Streamlit, and Google Gemini AI to provide intelligent
-learning tools including summarization, tutoring, flashcards, quizzes, and study planning.
-""")
+The application combines:
 
+- Python
+- Streamlit
+- Google Gemini AI
+- Document processing tools
+
+to provide intelligent learning features including summarization, tutoring,
+flashcard generation, quizzes, and personalized study planning.
+"""
+)
+
+
+
+# ------------------------------------
+# FOOTER
+# ------------------------------------
 
 st.markdown("---")
 
-
-
-# -------------------------------------------------
-# Footer
-# -------------------------------------------------
 
 st.caption(
     "Built with ❤️ by Treasure Ekigwenye | AI StudyMate v2"
