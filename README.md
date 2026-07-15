@@ -8,13 +8,13 @@ The application combines AI-driven note summarization, an intelligent study tuto
 
 Built with **Python, Streamlit, and Google Gemini AI**, AI-StudyMate demonstrates how Artificial Intelligence can make learning more accessible, personalized, and engaging for students.
 
----
+
 
 # 🚀 Live Demo
 
 🔗 https://ai-studymate-3rzmgcfqqvwk6buiwtsqri.streamlit.app/
 
----
+
 
 # ✨ Features
 
@@ -32,7 +32,7 @@ Features:
 * Generate practice questions
 * Provide study tips
 
----
+
 
 ## 🤖 AI Study Tutor
 
@@ -46,7 +46,7 @@ Features:
 * Provide examples for better understanding
 * Support interactive learning
 
----
+
 
 ## 🃏 AI Flashcard Generator
 
@@ -59,7 +59,7 @@ Features:
 * Choose the number of flashcards
 * Download flashcards for revision
 
----
+
 
 ## 📝 AI Quiz Generator
 
@@ -74,7 +74,7 @@ Features:
 * Custom number of questions
 * Download generated quizzes
 
----
+
 
 ## 📅 AI Study Planner
 
@@ -88,7 +88,7 @@ Features:
 * Define learning goals
 * Generate structured study plans
 
----
+
 
 ## 📊 Learning Dashboard
 
@@ -102,7 +102,7 @@ Dashboard statistics include:
 * 🤖 Tutor Sessions
 * 📅 Study Plans Created
 
----
+
 
 # 🎯 Why I Built AI-StudyMate
 
@@ -114,7 +114,7 @@ AI-StudyMate brings these learning tools together into one platform, helping stu
 
 This project reflects my belief that technology can expand access to quality education and empower learners worldwide.
 
----
+
 
 # 🛠️ Technology Stack
 
@@ -140,7 +140,7 @@ This project reflects my belief that technology can expand access to quality edu
 * GitHub
 * Streamlit Cloud
 
----
+
 
 # 📂 Project Structure
 
@@ -209,7 +209,7 @@ Run the application:
 streamlit run app.py
 ```
 
----
+
 
 # 📸 Screenshots
 
@@ -224,7 +224,7 @@ Planned screenshots:
 * Quiz Generator
 * Study Planner
 
----
+
 
 # 🌍 Future Roadmap
 
@@ -239,7 +239,7 @@ Planned improvements:
 * Multi-language support
 * Advanced study recommendations
 
----
+
 
 # 🤝 Contributing
 
@@ -252,13 +252,13 @@ To contribute:
 3. Commit your changes.
 4. Open a Pull Request.
 
----
+
 
 # 📄 License
 
 This project is licensed under the MIT License.
 
----
+
 
 # 👨‍💻 Developer
 
@@ -272,7 +272,7 @@ https://github.com/ekigwenye
 LinkedIn:
 https://www.linkedin.com/in/treasure-ekigwenye-7b50092b9
 
----
+
 
 # ⭐ Support the Project
 
