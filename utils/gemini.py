@@ -7,9 +7,10 @@ model = genai.GenerativeModel("models/gemini-3.5-flash")
 
 
 def generate_summary(prompt):
-    response = model.generate_content(prompt)
-
-    if hasattr(response, "text"):
+    try:
+        response = model.generate_content(prompt)
         return response.text
 
-    return ""
+    except Exception as e:
+        st.error(f"Actual Gemini Error:\n\n{e}")
+        return None
