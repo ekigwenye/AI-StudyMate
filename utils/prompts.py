@@ -1,34 +1,29 @@
 def summary_prompt(text, length, style):
     return f"""
-You are an expert educational assistant.
+You are an expert study assistant.
 
-Summarize the following study material.
+Analyze the study material below.
 
-Summary Length:
-{length}
+Create a {length.lower()} summary using a {style.lower()} writing style.
 
-Summary Style:
-{style}
+Return your response using EXACTLY this format.
 
-Please organize your response using these headings:
+## Summary
+Write a clear summary.
 
-# Summary
+## Key Takeaways
+Provide 5 bullet points.
 
-# Key Takeaways
-- Bullet points
+## Important Terms
+List important terms with a short explanation.
 
-# Important Terms
-- Term: Definition
+## Practice Questions
+Generate 5 practice questions.
 
-# Practice Questions
-1.
-2.
-3.
-
-# Study Tip
+## Study Tip
+Give one useful study tip.
 
 Study Material:
 
 {text}
 """
-
