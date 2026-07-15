@@ -7,3 +7,5 @@ google-generativeai
 
 pypdf
 python-docx
+
+reportlab
