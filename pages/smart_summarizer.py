@@ -4,26 +4,29 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
 from utils.prompts import summary_prompt
-from utils.gemini import generate_summary
+from utils.gemini import generate_ai_response
 from utils.helpers import extract_text
 
-# ------------------------------------
+# --------------------------------------------------
 # PAGE TITLE
-# ------------------------------------
+# --------------------------------------------------
 
 st.title("📚 Smart Summarizer")
-st.write("Turn long study materials into clear, structured study notes.")
+st.write("Turn long study materials into clear, structured study notes powered by AI.")
 
-# ------------------------------------
+# --------------------------------------------------
 # SESSION STATE
-# ------------------------------------
+# --------------------------------------------------
 
 if "summary" not in st.session_state:
     st.session_state.summary = ""
 
-# ------------------------------------
+if "summaries" not in st.session_state:
+    st.session_state.summaries = 0
+
+# --------------------------------------------------
 # INPUT TYPE
-# ------------------------------------
+# --------------------------------------------------
 
 option = st.radio(
     "Choose input type:",
@@ -32,21 +35,21 @@ option = st.radio(
 
 text = ""
 
-# ------------------------------------
+# --------------------------------------------------
 # PASTE TEXT
-# ------------------------------------
+# --------------------------------------------------
 
 if option == "Paste Text":
 
     text = st.text_area(
-        "Paste your study material here",
+        "Paste your study material",
         height=250,
-        placeholder="Paste notes, articles or textbook content..."
+        placeholder="Paste lecture notes, textbook content, articles or study materials..."
     )
 
-# ------------------------------------
-# UPLOAD FILE
-# ------------------------------------
+# --------------------------------------------------
+# FILE UPLOAD
+# --------------------------------------------------
 
 else:
 
@@ -61,9 +64,9 @@ else:
 
         st.success("✅ File uploaded successfully!")
 
-# ------------------------------------
+# --------------------------------------------------
 # SUMMARY SETTINGS
-# ------------------------------------
+# --------------------------------------------------
 
 st.subheader("⚙️ Summary Settings")
 
@@ -77,9 +80,9 @@ style = st.selectbox(
     ["Simple", "Academic", "Bullet Points"]
 )
 
-# ------------------------------------
+# --------------------------------------------------
 # GENERATE SUMMARY
-# ------------------------------------
+# --------------------------------------------------
 
 if st.button("🚀 Generate Summary"):
 
@@ -97,37 +100,60 @@ if st.button("🚀 Generate Summary"):
                 style
             )
 
-            summary = generate_summary(prompt)
+            summary = generate_ai_response(prompt)
 
             if summary:
 
                 st.session_state.summary = summary
+                st.session_state.summaries += 1
 
-                st.success("✅ Summary Generated!")
+                st.success("✅ Summary Generated Successfully!")
 
             else:
 
                 st.session_state.summary = ""
 
                 st.warning(
-                    "⚠️ AI service is temporarily unavailable. Please wait a minute and try again."
+                    "⚠️ AI service is temporarily unavailable or you've reached your Gemini quota. Please try again later."
                 )
 
-# ------------------------------------
+# --------------------------------------------------
 # DISPLAY SUMMARY
-# ------------------------------------
+# --------------------------------------------------
 
 if st.session_state.summary:
 
     st.markdown("---")
 
-    st.subheader("📖 Your Summary")
+    col1, col2 = st.columns(2)
 
-    st.markdown(st.session_state.summary)
+    with col1:
+        st.metric("Summary Length", length)
 
-    # --------------------------------
-    # DOWNLOAD AS TXT
-    # --------------------------------
+    with col2:
+        st.metric(
+            "Word Count",
+            len(st.session_state.summary.split())
+        )
+
+    with st.expander("📖 View Summary", expanded=True):
+
+        st.markdown(st.session_state.summary)
+
+    # --------------------------------------------------
+    # COPY SECTION
+    # --------------------------------------------------
+
+    st.subheader("📋 Copy Summary")
+
+    st.code(
+        st.session_state.summary,
+        language="text"
+    )
+
+    # --------------------------------------------------
+    # DOWNLOAD TXT
+    # --------------------------------------------------
 
     st.download_button(
         label="📥 Download Summary (.txt)",
@@ -136,9 +162,9 @@ if st.session_state.summary:
         mime="text/plain"
     )
 
-    # --------------------------------
-    # DOWNLOAD AS PDF
-    # --------------------------------
+    # --------------------------------------------------
+    # CREATE PDF
+    # --------------------------------------------------
 
     pdf_buffer = BytesIO()
 
@@ -167,3 +193,5 @@ if st.session_state.summary:
         file_name="AI_StudyMate_Summary.pdf",
         mime="application/pdf"
     )
+
+    st.success("🎉 Your summary is ready to download.")

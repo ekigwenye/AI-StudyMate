@@ -4,91 +4,275 @@ from utils.helpers import extract_text
 from utils.prompts import tutor_prompt
 from utils.gemini import generate_summary
 
+
+# ------------------------------------
+# PAGE CONFIG
+# ------------------------------------
+
+st.set_page_config(
+    page_title="AI Tutor",
+    page_icon="🤖"
+)
+
+
+# ------------------------------------
+# TITLE
+# ------------------------------------
+
 st.title("🤖 AI Tutor")
 
 st.write(
-    "Upload your notes or paste text, then ask AI StudyMate questions about the content."
+    "Your personal AI learning assistant. Upload your notes, ask questions, and get explanations based on your study material."
 )
+
+
+# ------------------------------------
+# SESSION STATE INITIALIZATION
+# ------------------------------------
 
 if "study_material" not in st.session_state:
     st.session_state.study_material = ""
 
-if "tutor_response" not in st.session_state:
-    st.session_state.tutor_response = ""
+if "tutor_history" not in st.session_state:
+    st.session_state.tutor_history = []
 
-option = st.radio(
-    "Choose input type",
-    ["Paste Text", "Upload File"]
+if "tutor_sessions" not in st.session_state:
+    st.session_state.tutor_sessions = 0
+
+
+# ------------------------------------
+# STUDY MATERIAL INPUT
+# ------------------------------------
+
+st.subheader("📚 Add Study Material")
+
+
+input_type = st.radio(
+    "Choose input method:",
+    [
+        "Paste Text",
+        "Upload File"
+    ],
+    horizontal=True
 )
 
-if option == "Paste Text":
+
+if input_type == "Paste Text":
 
     st.session_state.study_material = st.text_area(
-        "Paste your study material",
-        height=250
+        "Paste your study notes:",
+        height=300,
+        placeholder="Paste lecture notes, textbook content, or revision materials..."
     )
+
 
 else:
 
     uploaded_file = st.file_uploader(
-        "Upload PDF, DOCX or TXT",
-        type=["pdf", "docx", "txt"]
+        "Upload PDF, DOCX or TXT file",
+        type=[
+            "pdf",
+            "docx",
+            "txt"
+        ]
     )
 
     if uploaded_file:
 
-        st.session_state.study_material = extract_text(uploaded_file)
+        with st.spinner(
+            "Extracting study material..."
+        ):
 
-        st.success("✅ File uploaded successfully!")
+            st.session_state.study_material = extract_text(
+                uploaded_file
+            )
 
-question = st.text_input(
-    "Ask a question about your study material"
+        st.success(
+            "✅ File uploaded successfully!"
+        )
+
+        with st.expander(
+            "Preview Material"
+        ):
+
+            st.write(
+                st.session_state.study_material[:2000]
+            )
+
+
+# ------------------------------------
+# LEARNING MODE
+# ------------------------------------
+
+st.subheader("🎓 Learning Mode")
+
+
+learning_mode = st.selectbox(
+    "How should AI Tutor help you?",
+    [
+        "Explain Concept",
+        "Simplify Topic",
+        "Exam Preparation",
+        "Create Examples",
+        "Solve Questions"
+    ]
 )
 
-if st.button("🤖 Ask AI Tutor"):
+
+# ------------------------------------
+# QUESTION INPUT
+# ------------------------------------
+
+question = st.text_input(
+    "Ask AI Tutor a question:"
+)
+
+
+# ------------------------------------
+# ASK AI
+# ------------------------------------
+
+if st.button(
+    "🤖 Ask AI Tutor",
+    use_container_width=True
+):
 
     if not st.session_state.study_material.strip():
 
-        st.warning("Please upload or paste some study material first.")
+        st.warning(
+            "Please add study material first."
+        )
+
 
     elif not question.strip():
 
-        st.warning("Please enter a question.")
+        st.warning(
+            "Please enter a question."
+        )
+
 
     else:
 
-        with st.spinner("Thinking..."):
+        with st.spinner(
+            "AI Tutor is thinking..."
+        ):
 
             prompt = tutor_prompt(
                 st.session_state.study_material,
                 question
             )
 
-            answer = generate_summary(prompt)
+            prompt += f"""
 
-            if answer:
+Learning Mode:
+{learning_mode}
 
-                st.session_state.tutor_response = answer
+Provide a clear educational explanation.
+Use simple examples where necessary.
+Help the student understand the concept rather than only giving an answer.
 
-                st.success("✅ Answer Generated!")
+"""
 
-            else:
 
-                st.warning(
-                    "⚠️ AI service is temporarily unavailable. Please try again later."
+            try:
+
+                answer = generate_summary(
+                    prompt
                 )
 
-if st.session_state.tutor_response:
 
-    st.markdown("---")
+                if answer:
 
-    st.subheader("📖 AI Tutor Response")
+                    st.session_state.tutor_sessions += 1
 
-    st.markdown(st.session_state.tutor_response)
+
+                    st.session_state.tutor_history.append(
+                        {
+                            "question": question,
+                            "answer": answer
+                        }
+                    )
+
+
+                    st.success(
+                        "✅ Explanation Generated!"
+                    )
+
+
+                else:
+
+                    st.warning(
+                        "AI service did not return a response."
+                    )
+
+
+            except Exception as error:
+
+                st.error(
+                    f"Error: {error}"
+                )
+
+
+# ------------------------------------
+# CHAT HISTORY
+# ------------------------------------
+
+if st.session_state.tutor_history:
+
+    st.divider()
+
+    st.subheader(
+        "📖 Tutor Conversation"
+    )
+
+
+    for chat in reversed(
+        st.session_state.tutor_history
+    ):
+
+        st.markdown(
+            f"### ❓ Question\n{chat['question']}"
+        )
+
+        st.markdown(
+            f"### 🤖 Answer\n{chat['answer']}"
+        )
+
+        st.divider()
+
+
+    # Download conversation
+
+    conversation = ""
+
+
+    for chat in st.session_state.tutor_history:
+
+        conversation += (
+            f"Question:\n{chat['question']}\n\n"
+            f"Answer:\n{chat['answer']}\n\n"
+            "-----------------------\n\n"
+        )
+
 
     st.download_button(
-        "📥 Download Answer",
-        st.session_state.tutor_response,
-        "AI_Tutor_Response.txt",
+        "📥 Download Tutor Notes",
+        conversation,
+        "AI_Tutor_Notes.txt",
         "text/plain"
+    )
+
+
+# ------------------------------------
+# CLEAR CHAT
+# ------------------------------------
+
+if st.button(
+    "🗑️ Clear Conversation"
+):
+
+    st.session_state.tutor_history = []
+
+    st.success(
+        "Conversation cleared!"
     )
