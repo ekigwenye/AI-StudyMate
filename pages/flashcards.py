@@ -4,12 +4,22 @@ from utils.helpers import extract_text
 from utils.prompts import flashcard_prompt
 from utils.gemini import generate_summary
 
+st.set_page_config(
+    page_title="AI Flashcards",
+    page_icon="🃏"
+)
+
 st.title("🃏 AI Flashcards")
 
-st.write("Create study flashcards from your notes.")
+st.write(
+    "Generate interactive study flashcards from your notes."
+)
+
+if "flashcards" not in st.session_state:
+    st.session_state.flashcards = ""
 
 option = st.radio(
-    "Choose input type:",
+    "Choose input type",
     ["Paste Text", "Upload File"]
 )
 
@@ -18,14 +28,14 @@ text = ""
 if option == "Paste Text":
 
     text = st.text_area(
-        "Paste your study material here",
+        "Paste your study material",
         height=250
     )
 
 else:
 
     uploaded_file = st.file_uploader(
-        "Upload a PDF, DOCX or TXT file",
+        "Upload PDF, DOCX or TXT",
         type=["pdf", "docx", "txt"]
     )
 
@@ -37,28 +47,51 @@ else:
 
 num_cards = st.slider(
     "Number of Flashcards",
-    min_value=5,
-    max_value=30,
-    value=10
+    5,
+    30,
+    10
 )
 
 if st.button("🃏 Generate Flashcards"):
 
-    if not text.strip():
+    if text.strip() == "":
 
-        st.warning("Please paste text or upload a file.")
+        st.warning("Please enter study material.")
 
     else:
 
-        prompt = flashcard_prompt(
-            text,
-            num_cards
-        )
+        with st.spinner("Generating flashcards..."):
 
-        cards = generate_summary(prompt)
+            prompt = flashcard_prompt(
+                text,
+                num_cards
+            )
 
-        if cards:
+            cards = generate_summary(prompt)
 
-            st.success("✅ Flashcards Generated!")
+            if cards:
 
-            st.markdown(cards)
+                st.session_state.flashcards = cards
+
+                st.success("✅ Flashcards Generated!")
+
+            else:
+
+                st.warning(
+                    "⚠️ AI service is temporarily unavailable. Please try again later."
+                )
+
+if st.session_state.flashcards:
+
+    st.markdown("---")
+
+    st.subheader("📚 Your Flashcards")
+
+    st.markdown(st.session_state.flashcards)
+
+    st.download_button(
+        "📥 Download Flashcards",
+        st.session_state.flashcards,
+        "flashcards.txt",
+        "text/plain"
+    )
