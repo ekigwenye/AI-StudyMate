@@ -1,11 +1,5 @@
 streamlit
-openai>=1.0.0
-PyPDF2
-python-docx
-
 google-generativeai
-
 pypdf
 python-docx
-
 reportlab

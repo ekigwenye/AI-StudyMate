@@ -1,63 +1,150 @@
-📚 AI-StudyMate
+# 📚 AI-StudyMate
 
-Learn Smarter. Study Better. Powered by AI.
+## Learn Smarter. Study Better. Powered by AI.
 
-AI-StudyMate is an AI-powered learning assistant built to help students study more effectively using artificial intelligence. The application combines AI-driven note summarization, an intelligent academic chatbot, automatic quiz generation, and a study tracker into one simple and interactive platform.
+AI-StudyMate is an AI-powered learning assistant designed to help students study more effectively using Artificial Intelligence.
 
-The project was created to demonstrate how AI can make learning more accessible, personalized, and engaging for students while showcasing practical applications of Python, Streamlit, OpenAI, and Hugging Face technologies.
+The application combines AI-driven note summarization, an intelligent study tutor, flashcard generation, quiz creation, and personalized study planning into one interactive learning platform.
 
+Built with **Python, Streamlit, and Google Gemini AI**, AI-StudyMate demonstrates how Artificial Intelligence can make learning more accessible, personalized, and engaging for students.
 
+---
 
-🚀 Live Demo
+# 🚀 Live Demo
 
 🔗 https://ai-studymate-3rzmgcfqqvwk6buiwtsqri.streamlit.app/
 
+---
 
+# ✨ Features
 
+## 📝 Smart Note Summarizer
 
+Transform lengthy study materials into structured learning resources.
 
-✨ Features
+Features:
 
-📝 Smart Note Summarizer
+* Upload PDF, DOCX, and TXT files
+* Paste study notes directly
+* Generate AI summaries
+* Extract key takeaways
+* Identify important terms
+* Generate practice questions
+* Provide study tips
 
-Transform lengthy notes into concise, easy-to-understand summaries using Natural Language Processing (NLP).
+---
 
-🤖 AI Study Tutor
+## 🤖 AI Study Tutor
 
-Ask academic questions and receive AI-powered explanations that help simplify difficult concepts.
+A personal AI learning assistant that helps students understand difficult concepts.
 
-📚 Quiz Generator
+Features:
 
-Generate multiple-choice quiz questions from study material to reinforce learning.
+* Ask questions about study materials
+* Receive AI-powered explanations
+* Simplify complex topics
+* Provide examples for better understanding
+* Support interactive learning
 
-⏱️ Study Tracker
+---
 
-Track study sessions and build productive study habits with an integrated timer.
+## 🃏 AI Flashcard Generator
 
+Create revision flashcards automatically from learning materials.
 
+Features:
 
-🎯 Why I Built AI-StudyMate
+* Generate custom flashcards
+* Support active recall learning
+* Choose the number of flashcards
+* Download flashcards for revision
 
-As a Computer Science student passionate about Artificial Intelligence, I wanted to build a practical solution that demonstrates how AI can improve education.
+---
 
-Many students spend hours organizing notes, searching for explanations, and creating revision questions. AI-StudyMate brings these essential learning tools together into one application, making studying more efficient and engaging.
+## 📝 AI Quiz Generator
 
-This project reflects my belief that technology should expand access to quality education and empower learners everywhere.
+Test your understanding with AI-generated quizzes.
 
+Features:
 
+* Multiple choice questions
+* True/False questions
+* Short answer questions
+* Adjustable difficulty levels
+* Custom number of questions
+* Download generated quizzes
 
-🛠️ Technology Stack
+---
 
-- Python
-- Streamlit
-- OpenAI API
-- Hugging Face Transformers
-- PyTorch
+## 📅 AI Study Planner
 
+Create personalized study schedules based on your goals.
 
+Features:
 
-📂 Project Structure
+* Select subject or course
+* Choose study duration
+* Set available study hours
+* Define learning goals
+* Generate structured study plans
 
+---
+
+## 📊 Learning Dashboard
+
+Track your AI StudyMate activity.
+
+Dashboard statistics include:
+
+* 📝 Summaries Generated
+* 📝 Quizzes Created
+* 🃏 Flashcards Generated
+* 🤖 Tutor Sessions
+* 📅 Study Plans Created
+
+---
+
+# 🎯 Why I Built AI-StudyMate
+
+As a Computer Science student passionate about Artificial Intelligence, I wanted to build a practical AI solution that addresses real challenges students face during learning.
+
+Students often spend significant time organizing notes, creating revision materials, searching for explanations, and planning their study schedules.
+
+AI-StudyMate brings these learning tools together into one platform, helping students save time, improve understanding, and develop better study habits.
+
+This project reflects my belief that technology can expand access to quality education and empower learners worldwide.
+
+---
+
+# 🛠️ Technology Stack
+
+## Programming Language
+
+* Python
+
+## Framework
+
+* Streamlit
+
+## Artificial Intelligence
+
+* Google Gemini AI
+
+## Document Processing
+
+* PyPDF
+* Python-docx
+
+## Development Tools
+
+* GitHub
+* Streamlit Cloud
+
+---
+
+# 📂 Project Structure
+
+```
 AI-StudyMate/
 │
 ├── app.py
@@ -66,98 +153,129 @@ AI-StudyMate/
 ├── LICENSE
 ├── .gitignore
 │
-├── assets/
-│   └── screenshots/
-│
 ├── pages/
+│   ├── Smart_Summarizer.py
+│   ├── AI_Tutor.py
+│   ├── AI_Flashcards.py
+│   ├── AI_Quiz_Generator.py
+│   └── AI_Study_Planner.py
 │
 ├── utils/
+│   ├── gemini.py
+│   ├── prompts.py
+│   └── helpers.py
 │
 └── .streamlit/
+    └── secrets.toml
+```
 
+---
 
-
-⚙️ Installation
+# ⚙️ Installation
 
 Clone the repository:
 
+```bash
 git clone https://github.com/ekigwenye/AI-StudyMate.git
+```
 
 Navigate into the project:
 
+```bash
 cd AI-StudyMate
+```
 
 Install dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
-Create a ".streamlit/secrets.toml" file:
+Create a Streamlit secrets file:
 
-OPENAI_API_KEY="your_openai_api_key"
+```
+.streamlit/secrets.toml
+```
+
+Add your Gemini API key:
+
+```toml
+GEMINI_API_KEY="your_gemini_api_key"
+```
 
 Run the application:
 
+```bash
 streamlit run app.py
+```
 
+---
 
+# 📸 Screenshots
 
-📸 Screenshots
+Application screenshots will be added here.
 
-Screenshots of the application will be added here as the project continues to evolve.
+Planned screenshots:
 
-- Home Page
-- Note Summarizer
-- AI Tutor
-- Quiz Generator
-- Study Tracker
+* Home Dashboard
+* Smart Summarizer
+* AI Tutor
+* Flashcard Generator
+* Quiz Generator
+* Study Planner
 
+---
 
+# 🌍 Future Roadmap
 
-🌍 Future Roadmap
+Planned improvements:
 
-Planned improvements include:
+* User authentication
+* Persistent learning history
+* Database integration
+* Learning analytics
+* AI voice tutor
+* Mobile application version
+* Multi-language support
+* Advanced study recommendations
 
-- 📄 PDF document upload
-- 📄 Word document support
-- 🧠 Flashcard generator
-- 📊 Learning analytics dashboard
-- 📥 Download summaries
-- 🌐 Multi-language support
-- 👤 User accounts
-- ☁️ Cloud database integration
+---
 
-
-
-🤝 Contributing
+# 🤝 Contributing
 
 Contributions, suggestions, and feedback are welcome.
 
-If you would like to improve AI-StudyMate:
+To contribute:
 
 1. Fork the repository.
-2. Create a new feature branch.
+2. Create a feature branch.
 3. Commit your changes.
 4. Open a Pull Request.
 
+---
 
-
-📄 License
+# 📄 License
 
 This project is licensed under the MIT License.
 
+---
 
+# 👨‍💻 Developer
 
-👨‍💻 Developer
-
-Treasure Ekigwenye
+**Treasure Ekigwenye**
 
 Computer Science Student | AI & Machine Learning Enthusiast | Building AI Solutions for Education and Social Impact
 
-- GitHub: https://github.com/ekigwenye
-- LinkedIn: https://www.linkedin.com/in/treasure-ekigwenye-7b50092b9
+GitHub:
+https://github.com/ekigwenye
 
+LinkedIn:
+https://www.linkedin.com/in/treasure-ekigwenye-7b50092b9
 
+---
 
-⭐ Support the Project
+# ⭐ Support the Project
 
-If you find AI-StudyMate useful or inspiring, please consider giving the repository a ⭐ on GitHub. Your support encourages continued development and helps others discover the project.
+If you find AI-StudyMate useful or inspiring, consider giving the repository a ⭐ on GitHub.
+
+Your support helps encourage continued development of AI-powered educational tools.

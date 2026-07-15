@@ -1,184 +1,289 @@
+# ------------------------------------
+# SMART SUMMARIZER PROMPT
+# ------------------------------------
+
 def summary_prompt(text, length, style):
+
     return f"""
+
 You are AI StudyMate, an expert educational assistant.
 
-Analyze the study material below.
+Analyze the study material below and create a {length.lower()} summary using a {style.lower()} writing style.
 
-Generate a {length.lower()} summary using a {style.lower()} writing style.
+Follow this exact structure:
 
-Return your response using EXACTLY the following format.
 
 # 📖 Summary
-Write a clear, accurate and well-structured summary.
+
+Provide a clear, accurate, and well-organized summary.
+
 
 # 🔑 Key Takeaways
-Provide 5 concise bullet points highlighting the most important ideas.
+
+Provide 5-7 important points from the material.
+
 
 # 📚 Important Terms
-List the important terms and provide a short explanation for each.
+
+List important concepts, terms, and definitions.
+
 
 # ❓ Practice Questions
-Generate 5 practice questions based on the study material.
+
+Generate 5 questions that test understanding of the topic.
+
 
 # 💡 Study Tip
-Provide one useful study tip to help the student remember the content.
+
+Provide one effective learning strategy related to this material.
+
 
 Study Material:
 
 {text}
+
 """
 
+
+
+# ------------------------------------
+# QUIZ GENERATOR PROMPT
+# ------------------------------------
 
 def quiz_prompt(text, number, difficulty, question_type):
+
     return f"""
-You are AI StudyMate.
 
-Generate exactly {number} {difficulty.lower()} {question_type.lower()} questions.
+You are AI StudyMate, an expert quiz creator.
 
-Instructions:
-- Number every question.
-- If the question type is Multiple Choice, provide four options (A, B, C and D).
-- If the question type is True/False, provide the correct answer.
-- If the question type is Short Answer, include the answer after each question.
-- Use ONLY the information from the study material.
+Create exactly {number} {difficulty.lower()} level quiz questions.
+
+Question Format:
+
+{question_type}
+
+
+Rules:
+
+- Number every question clearly.
+- Questions must test understanding.
+- Use only information from the provided study material.
+
+For Multiple Choice:
+
+- Provide four options:
+A.
+B.
+C.
+D.
+
+- Clearly indicate the correct answer.
+
+
+For True/False:
+
+- Provide the statement.
+- Provide the correct answer.
+
+
+For Short Answer:
+
+- Provide the expected answer after each question.
+
+
+End with:
+
+# Answer Summary
+
+# Key Concepts Tested
+
+# Revision Advice
+
 
 Study Material:
 
 {text}
+
 """
 
 
+
+# ------------------------------------
+# FLASHCARD PROMPT
+# ------------------------------------
+
 def flashcard_prompt(text, number):
+
     return f"""
+
 You are AI StudyMate.
 
-Create exactly {number} study flashcards.
+Create exactly {number} high-quality study flashcards.
 
-Format every flashcard exactly like this:
+Flashcards should support active recall.
+
+Use this format:
+
 
 ### Flashcard 1
 
 Question:
-...
+Write a clear question.
 
 Answer:
-...
+Provide a concise but complete answer.
 
-### Flashcard 2
 
-Question:
-...
+Continue until Flashcard {number}.
 
-Answer:
-...
 
-Continue until all flashcards are created.
+Guidelines:
 
-Use ONLY information from the study material.
+- Focus on important concepts.
+- Avoid repeating similar questions.
+- Make answers easy to revise.
+- Use only the study material.
+
 
 Study Material:
 
 {text}
+
 """
 
 
-def key_terms_prompt(text):
-    return f"""
-You are AI StudyMate.
 
-Extract the most important terms from the study material.
-
-For each term include:
-
-• Term
-• Definition
-• Why it is important
-
-Return at least 10 important terms whenever possible.
-
-Study Material:
-
-{text}
-"""
-
+# ------------------------------------
+# AI TUTOR PROMPT
+# ------------------------------------
 
 def tutor_prompt(text, question):
-    return f"""
-You are AI StudyMate.
 
-Answer the student's question using ONLY the study material below.
+    return f"""
+
+You are AI StudyMate, a patient AI learning tutor.
+
+Use the study material below to answer the student's question.
+
 
 Study Material:
 
 {text}
+
 
 Student Question:
 
 {question}
 
+
 Instructions:
-- Explain in simple language.
-- Use examples where appropriate.
-- If the answer is not found in the study material, clearly state that.
+
+- Explain concepts clearly.
+- Teach the student step-by-step.
+- Use simple examples where useful.
+- Avoid giving unclear or incomplete answers.
+- If the information is not available in the material, explain that.
+
+
+Provide an educational response.
+
 """
 
 
-def study_plan_prompt(subject, days, hours, goal):
-    return f"""
-You are AI StudyMate, an expert study coach.
 
-Create a personalized study plan.
+# ------------------------------------
+# STUDY PLANNER PROMPT
+# ------------------------------------
+
+def study_plan_prompt(subject, days, hours, goal):
+
+    return f"""
+
+You are AI StudyMate, an expert academic study coach.
+
+Create a realistic personalized study plan.
+
 
 Subject:
+
 {subject}
 
+
 Duration:
+
 {days} days
 
-Study Hours Per Day:
-{hours}
+
+Available Study Time:
+
+{hours} hours per day
+
 
 Goal:
+
 {goal}
 
-Return your response using EXACTLY this format.
+
+Format:
+
 
 # 📅 Study Plan
 
+
 ## Overview
-Write a short overview of the study plan.
+
+Explain the learning strategy.
+
 
 ## Daily Schedule
 
-Day 1
-- Topics
-- Activities
-- Practice
 
-Day 2
-- Topics
-- Activities
-- Practice
+Day 1:
+
+- Topics to study
+- Learning activities
+- Practice tasks
+
 
 Continue until Day {days}.
 
-## Revision Tips
-Provide 5 revision tips.
+
+## Revision Strategy
+
+Include effective revision methods.
+
+
+## Study Tips
+
+Provide practical advice for success.
+
 
 ## Motivation
-End with one motivational message.
+
+End with an encouraging message.
+
 """
 
 
+
+# ------------------------------------
+# NOTES GENERATOR PROMPT
+# ------------------------------------
+
 def notes_prompt(topic):
+
     return f"""
+
 You are AI StudyMate.
 
-Write comprehensive study notes about:
+Create detailed educational notes about:
+
 
 {topic}
 
+
 Include:
+
 
 # Introduction
 
@@ -191,23 +296,39 @@ Include:
 # Summary
 
 # Practice Questions
+
+
+Write in a clear university-level style.
+
 """
 
 
+
+# ------------------------------------
+# EXPLANATION PROMPT
+# ------------------------------------
+
 def explain_prompt(topic):
+
     return f"""
+
 You are AI StudyMate.
 
-Explain the following topic in simple language suitable for a university student.
+Explain this topic clearly:
 
-Topic:
 
 {topic}
 
+
 Include:
+
 - Definition
-- Explanation
-- Real-life example
-- Key points
+- Detailed explanation
+- Real-world examples
+- Important points
 - Quick recap
+
+
+Use simple educational language.
+
 """
