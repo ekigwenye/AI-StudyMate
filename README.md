@@ -15,6 +15,7 @@ The project was created to demonstrate how AI can make learning more accessible,
 
 
 
+
 ✨ Features
 
 📝 Smart Note Summarizer
