@@ -179,7 +179,20 @@ Clone the repository:
 git clone https://github.com/ekigwenye/AI-StudyMate.git
 ```
 
+Navigate into the project:
+cd AI-StudyMate
 
+Install dependencies:
+pip install -r requirements.txt
+
+Create a Streamlit secrets file:
+.streamlit/secrets.toml
+
+Add your Gemini API key:
+GEMINI_API_KEY="your_gemini_api_key"
+
+Run the application:
+streamlit run app.py
 
 
 
